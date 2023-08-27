@@ -76,11 +76,9 @@ const createPedido = async(productosData, usuarioId) => {
 }
 
 const loginUser = async(userData) => {
-    const select = "SELECT * FROM usuarios WHERE email = $1;";
-    let result = await(pool.query(select, [userData.email]))
-    if (result.rowCount != 1) return false
+    user = await(searchUser(userData.email))
     let fromDataBase = toHash(userData.password)
-    let fromUser = result.rows[0].password
+    let fromUser = user.password
     let isEqual = compareHashes(fromDataBase, fromUser)
     return isEqual
 }
